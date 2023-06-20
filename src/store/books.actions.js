@@ -2,10 +2,9 @@ import { bookService } from '../services/book.service.js'
 import { store } from './store.js'
 
 import {
-    SET_BOOKS, UPDATE_BOOKS
+    SET_BOOKS, UPDATE_BOOKS, SET_FILTER_BY
 } from './books.reducer.js'
 
-// Action Creators:
 
 export async function loadBooks(idx) {
     try {
@@ -23,11 +22,11 @@ export async function loadBooks(idx) {
 
 export async function updateBook(book) {
     return bookService.save(book)
-        .then(book => {
-            console.log('Updated Book:', book)
+        .then(updateBook => {
+            console.log('Updated Book:', updateBook)
             store.dispatch({
                 type: UPDATE_BOOKS,
-                book
+                updateBook
             })
             return book
         })
@@ -37,4 +36,7 @@ export async function updateBook(book) {
         })
 }
 
+export function setFilterBy(filterBy) {
+    store.dispatch({ type: SET_FILTER_BY, filterBy })
+}
 

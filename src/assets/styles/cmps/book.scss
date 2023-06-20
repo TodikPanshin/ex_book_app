@@ -4,7 +4,10 @@
     height: 100%;
     align-items: center;
     justify-content: center;
-
+button{
+    border: none;
+    background-color: inherit;
+}
     .book-card {
         display: flex;
         flex-direction: column;

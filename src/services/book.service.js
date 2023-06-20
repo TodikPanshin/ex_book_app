@@ -1,5 +1,5 @@
 import { storageService } from './storage.service.js'
-import { makeId,adToDemoData } from './util.service.js'
+import { makeId, adToDemoData } from './util.service.js'
 
 
 
@@ -13,21 +13,22 @@ export const bookService = {
 
 const STORAGE_KEY = 'booksDB'
 
-var bookIdx = 0
 
-var gBooks = _loadBooks()
+
+const gBooks = _loadBooks()
 
 function query(idx = 0) {
-    bookIdx = idx
-    let book = gBooks[bookIdx]
-
-    return Promise.resolve({ ...book })
+    let books = gBooks[idx]
+     
+    console.log('test query', books)
+    return Promise.resolve(books)
 }
+
 
 
 function getById(id) {
     const book = gBooks.find(book => book._id === id)
-    return Promise.resolve({ ...book })
+    return Promise.resolve(book)
 }
 
 function remove(id) {
@@ -35,7 +36,7 @@ function remove(id) {
     if (idx !== -1) {
         gBooks.splice(idx, 1)
         if (gBooks.length === 0) {
-            gBooks = _demoBooks().books
+            gBooks = _demoBooks()
         }
         storageService.store(STORAGE_KEY, gBooks)
     }
@@ -43,14 +44,10 @@ function remove(id) {
 }
 
 function save(bookToSave) {
-    if (bookToSave._id) {
-        const idx = gBooks.findIndex(book => book._id === bookToSave._id)
-        gBooks.splice(idx, 1, bookToSave)
-    } else {
-        bookToSave._id = makeId()
-        bookToSave.batteryStatus = 100
-        gBooks.push(bookToSave)
-    }
+    console.log('bookToSave', bookToSave)
+    const idx = gBooks.findIndex(book => book._id === bookToSave._id)
+    gBooks[idx]=bookToSave
+
     storageService.store(STORAGE_KEY, gBooks)
     return Promise.resolve(bookToSave)
 
@@ -64,11 +61,12 @@ function _loadBooks() {
         adToDemoData(books.books, '_id', makeId())
         storageService.store(STORAGE_KEY, books.books)
     }
+    console.log(books)
     return books
 }
 
-function getBooksLength(){
-    const books=_demoBooks()
+function getBooksLength() {
+    const books = _demoBooks()
     return books.books.length
 }
 function _demoBooks() {
@@ -87,7 +85,8 @@ function _demoBooks() {
                 "rating": "4.5",
                 "author": "Chingiz Aitmatov",
                 "price": "24"
-            }, {
+            },
+            {
                 "title": "The Element of Surprise: Navy SEALS in Vietnam",
                 "description": "t used to be said that the night belonged to Charlie. But that wasn't true where SEALs patrolled. For six months in 1970, fourteen men in Juliett Platoon of the Navy's SEAL Team One--incuding the author--carried out over a hundred missions in the Mekong Delta without a single platoon fatality. Their primary mission: kidnap enemy soldiers--alive--for interrogation.",
                 "rating": "4.3",
@@ -107,7 +106,8 @@ function _demoBooks() {
                 "rating": "2.1",
                 "author": "Gayle Wilson",
                 "price": "2.78"
-            }, {
+            },
+            {
                 "title": "Autobiography of a Yogi",
                 "description": "Autobiography of a Yogi is at once a beautifully written account of an exceptional life and a profound introduction to the ancient science of Yoga and its time-honored tradition of meditation",
                 "rating": "4.6",
@@ -120,7 +120,8 @@ function _demoBooks() {
                 "rating": "3.2",
                 "author": "Sarah Stark",
                 "price": "10.14"
-            }, {
+            },
+            {
                 "title": "Crafting with Cat Hair: Cute Handicrafts to Make with Your Cat",
                 "description": "Got fur balls?",
                 "rating": "3.6",

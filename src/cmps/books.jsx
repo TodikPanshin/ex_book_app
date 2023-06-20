@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { loadBooks, updateBook } from '../store/books.actions'
 import { bookService } from '../services/book.service'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-  import { faChevronRight ,faChevronLeft} from '@fortawesome/free-solid-svg-icons'
+import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 
 export function Books() {
     const book = useSelector(storeState => storeState.booksModule.books)
@@ -16,14 +16,14 @@ export function Books() {
 
     useEffect(() => {
         loadBooks(bookIdx)
-    }, [bookIdx,checked])
+    }, [bookIdx, checked])
 
     function handaleBookIdx(def) {
         setBookIdx(prevIdx => prevIdx + def)
     }
 
     async function handleCheckboxChange() {
-        setChecked(prev=>!prev)
+        setChecked(prev => !prev)
         const updatedBook = { ...book, isFavorite: checked }
         try {
             await bookService.save(updatedBook)
@@ -33,21 +33,22 @@ export function Books() {
         }
     }
 
+    
 
     console.log('test book', book)
-    if (!book&&!book.length) return <div>Loading...</div>
+    if (!book && !book.length) return <div>Loading...</div>
     return (
         <>
             <div className='book-container'>
-                <button onClick={() => handaleBookIdx(-1)}>back </button>
+                {bookIdx !== 0 && <button onClick={() => handaleBookIdx(-1)}><FontAwesomeIcon icon={faChevronLeft} size="xl" /> </button>}
                 <article className="book-card">
                     <div className="card-header">
                         <h3 className='book-title'>{book.title}</h3>
                         <input
                             type="checkbox"
-                            id=""
-                            name=""
-                            checked={book.isFavorite}
+                            id="checkbox"
+                            name="checkbox"
+                            checked={checked}
                             onChange={handleCheckboxChange}
                         />
                     </div>
@@ -60,12 +61,8 @@ export function Books() {
                     </div>
                     <h3 className='price'>Price: $<span>{book.price}</span> </h3>
                 </article >
-                <button onClick={() => handaleBookIdx(+1)}>next</button>
-
-
-
-            </div>
-
+                {bookIdx !== bookService.getBooksLength()-1 && < button onClick={() => handaleBookIdx(+1)}><FontAwesomeIcon icon={faChevronRight} size="xl" /></button>}
+            </div >
         </>
     )
 }
