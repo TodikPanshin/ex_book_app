@@ -23,7 +23,7 @@ export default function App() {
           </main>
         </section>
       </Router>
-    // </Provider>
+    </Provider>
   )
 }
 

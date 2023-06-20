@@ -3,9 +3,11 @@ import { WishList } from "../cmps/wishlist";
 
 export function Home() {
     return (
-        <section className="main-container">
-            <Books />
-            <WishList />
+        <section className="app-container">
+            <div className="books-container">
+                <Books />
+                <WishList />
+            </div>
         </section>
     )
 }

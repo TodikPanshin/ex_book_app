@@ -10,7 +10,11 @@
 @import "basics/base";
 
 // pages
+@import "./cmps/home.scss";
+
+
 
 
 // Components
 @import "cmps/star-rating";
+@import "./cmps/book.scss";

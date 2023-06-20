@@ -5,7 +5,7 @@ export function WishList() {
 
 
     return (
-        <div>ola</div>
+        <div  >ola</div>
 
     )
 }

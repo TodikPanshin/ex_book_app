@@ -1,0 +1,13 @@
+.app-container {
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .books-container {
+        display: flex;
+        background-color: rgb(233, 232, 232);
+        height: 500px;
+        width: 800px;
+    }
+}
