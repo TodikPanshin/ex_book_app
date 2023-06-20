@@ -14,16 +14,18 @@ const initialState = {
 }
 
 export function booksReducer(state = initialState, action) {
-
+    var books
 
 
     switch (action.type) {
         case SET_BOOKS:
             return { ...state, books: action.books }
-            
+
         case UPDATE_BOOKS:
-            return { ...state, books: action.books }
-            
+            books = state.books.map(book => (book._id === action.book._id) ? action.book : book)
+            state = { ...state, books }
+            break
+
         case SET_FILTER_BY:
             return {
                 ...state,

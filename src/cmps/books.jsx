@@ -16,7 +16,7 @@ export function Books() {
 
     useEffect(() => {
         loadBooks(bookIdx)
-    }, [bookIdx, checked])
+    }, [bookIdx, book.isFavorite])
 
     function handaleBookIdx(def) {
         setBookIdx(prevIdx => prevIdx + def)
@@ -24,9 +24,9 @@ export function Books() {
 
     async function handleCheckboxChange() {
         setChecked(prev => !prev)
-        const updatedBook = { ...book, isFavorite: checked }
+        const updatedBook = { ...book, isFavorite: !book.isFavorite }
         try {
-            await bookService.save(updatedBook)
+            await updateBook(updatedBook)
         }
         catch (err) {
             console.log('Cannot save Book', err)
@@ -50,6 +50,8 @@ export function Books() {
                             name="checkbox"
                             checked={checked}
                             onChange={handleCheckboxChange}
+                            defaultChecked={checked}
+
                         />
                     </div>
                     <hr></hr>

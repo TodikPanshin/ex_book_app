@@ -18,24 +18,24 @@ const STORAGE_KEY = 'booksDB'
 const gBooks = _loadBooks()
 
 function query(idx = 0) {
-    let books = gBooks[idx]
+    let books = gBooks.books
      
     console.log('test query', books)
-    return Promise.resolve(books)
+    return Promise.resolve(books[idx])
 }
 
 
 
 function getById(id) {
-    const book = gBooks.find(book => book._id === id)
+    const book = gBooks.books.find(book => book._id === id)
     return Promise.resolve(book)
 }
 
 function remove(id) {
-    const idx = gBooks.findIndex(book => book._id === id)
+    const idx = gBooks.book.findIndex(book => book._id === id)
     if (idx !== -1) {
-        gBooks.splice(idx, 1)
-        if (gBooks.length === 0) {
+        gBooks.book.splice(idx, 1)
+        if (gBooks.books.length === 0) {
             gBooks = _demoBooks()
         }
         storageService.store(STORAGE_KEY, gBooks)
@@ -45,8 +45,8 @@ function remove(id) {
 
 function save(bookToSave) {
     console.log('bookToSave', bookToSave)
-    const idx = gBooks.findIndex(book => book._id === bookToSave._id)
-    gBooks[idx]=bookToSave
+    const idx = gBooks.books.findIndex(book => book._id === bookToSave._id)
+    gBooks.books[idx]=bookToSave
 
     storageService.store(STORAGE_KEY, gBooks)
     return Promise.resolve(bookToSave)
@@ -59,7 +59,7 @@ function _loadBooks() {
         books = _demoBooks()
         adToDemoData(books.books, 'isFavorite', false)
         adToDemoData(books.books, '_id', makeId())
-        storageService.store(STORAGE_KEY, books.books)
+        storageService.store(STORAGE_KEY, books)
     }
     console.log(books)
     return books
@@ -69,6 +69,8 @@ function getBooksLength() {
     const books = _demoBooks()
     return books.books.length
 }
+
+
 function _demoBooks() {
     return {
         "books": [
