@@ -23,10 +23,10 @@ export function Books() {
     }
 
     async function handleCheckboxChange() {
-        setChecked(prev => !prev)
         const updatedBook = { ...book, isFavorite: !book.isFavorite }
         try {
             await updateBook(updatedBook)
+            setChecked(prev => !prev)
         }
         catch (err) {
             console.log('Cannot save Book', err)
@@ -55,7 +55,7 @@ export function Books() {
                             checked={checked}
                             onChange={handleCheckboxChange}
                             defaultChecked={checked}
-
+                            value={book.isFavorite}
                         />
                     </div>
                     <hr></hr>
