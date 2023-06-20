@@ -1,37 +1,41 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { loadBooks, updateBook } from '../store/books.actions'
-
+import { bookService } from '../services/book.service'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+  import { faChevronRight ,faChevronLeft} from '@fortawesome/free-solid-svg-icons'
 
 export function Books() {
     const book = useSelector(storeState => storeState.booksModule.books)
     const [bookIdx, setBookIdx] = useState(0)
-    // const [book, setBook, handleChange] = useForm(robotService.getEmptyRobot())
+    const [checked, setChecked] = useState(book.isFavorite)
+
 
 
 
 
     useEffect(() => {
         loadBooks(bookIdx)
-    }, [bookIdx])
+    }, [bookIdx,checked])
 
     function handaleBookIdx(def) {
         setBookIdx(prevIdx => prevIdx + def)
     }
 
-    function handleCheckboxChange() {
-        const updatedBook = { ...book, isFavorite: !book.isFavorite }
-        updateBook(updatedBook)
-            .then(savedBook => {
-                console.log('Updated Book:', savedBook)
-            })
-            .catch(err => {
-                console.log('Cannot save Book', err)
-            })
+    async function handleCheckboxChange() {
+        setChecked(prev=>!prev)
+        const updatedBook = { ...book, isFavorite: checked }
+        try {
+            await bookService.save(updatedBook)
+        }
+        catch (err) {
+            console.log('Cannot save Book', err)
+        }
     }
 
 
     console.log('test book', book)
+    if (!book&&!book.length) return <div>Loading...</div>
     return (
         <>
 
@@ -43,7 +47,7 @@ export function Books() {
                         id=""
                         name=""
                         checked={book.isFavorite}
-                        onChange={handleCheckboxChange}
+                        onChange={handleCheckboxChange} 
                     />
                 </div>
                 <hr></hr>
@@ -55,8 +59,9 @@ export function Books() {
                 </div>
                 <h3>Price: $<span>{book.price}</span> </h3>
             </article >
-            <button onClick={() => handaleBookIdx(-1)}>back </button>
-            <button onClick={() => handaleBookIdx(+1)}>next</button>
+            
+            {bookIdx !== 0 && <button onClick={() => handaleBookIdx(-1)}><FontAwesomeIcon icon={faChevronLeft} /> </button>}
+            {bookIdx !== bookService.getBooksLength() && <button onClick={() => handaleBookIdx(+1)}><FontAwesomeIcon icon={faChevronRight} /></button>}
         </>
     )
 }

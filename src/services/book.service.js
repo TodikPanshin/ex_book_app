@@ -8,6 +8,7 @@ export const bookService = {
     save,
     remove,
     getById,
+    getBooksLength,
 }
 
 const STORAGE_KEY = 'booksDB'
@@ -18,7 +19,7 @@ var gBooks = _loadBooks()
 
 function query(idx = 0) {
     bookIdx = idx
-    let book = gBooks.books[bookIdx]
+    let book = gBooks[bookIdx]
 
     return Promise.resolve({ ...book })
 }
@@ -59,13 +60,17 @@ function _loadBooks() {
     let books = storageService.load(STORAGE_KEY)
     if (!books || !books.length) {
         books = _demoBooks()
-        adToDemoData(books.books, 'isFavorite', false);
-        storageService.store(STORAGE_KEY, books)
+        adToDemoData(books.books, 'isFavorite', false)
+        adToDemoData(books.books, '_id', makeId())
+        storageService.store(STORAGE_KEY, books.books)
     }
     return books
 }
 
-
+function getBooksLength(){
+    const books=_demoBooks()
+    return books.books.length
+}
 function _demoBooks() {
     return {
         "books": [

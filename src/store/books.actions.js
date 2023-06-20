@@ -23,13 +23,13 @@ export async function loadBooks(idx) {
 
 export async function updateBook(book) {
     return bookService.save(book)
-        .then(savedBook => {
-            console.log('Updated Book:', savedBook)
+        .then(book => {
+            console.log('Updated Book:', book)
             store.dispatch({
                 type: UPDATE_BOOKS,
                 book
             })
-            return savedBook
+            return book
         })
         .catch(err => {
             console.log('Cannot save Book', err)
