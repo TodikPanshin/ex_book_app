@@ -1,0 +1,99 @@
+/* Breakpoint mixins */
+
+@mixin for-mobile-layout {
+    @media (max-width: $padded-break-mobile) {
+        @content;
+    }
+}
+
+@mixin for-narrow-layout {
+    @media (min-width: $padded-break-narrow) {
+        @content;
+    }
+}
+
+@mixin for-normal-layout {
+    @media (min-width: $padded-break-normal) {
+        @content;
+    }
+}
+
+@mixin for-first-break-layout {
+    @media (min-width: $padded-first-breakpoint) {
+        @content;
+    }
+}
+
+@mixin for-wide-layout {
+    @media (min-width: $padded-break-wide) {
+        @content;
+    }
+}
+
+// FOR MAIN LAYOUT
+@mixin layoutGTC($max) {
+    grid-template-columns:
+        minmax($layoutPadding, 1fr) minmax(auto, $max) minmax($layoutPadding, 1fr);
+}
+
+
+/* Media  Mixins */
+@mixin aspect-ratio($width, $height) {
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        display: block;
+        content: "";
+        width: 100%;
+        padding-top: calc(($height / $width) * 100%);
+    }
+
+    >* {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    >img {
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+
+// Buttons
+
+@mixin btn($type: regular, $bg: $clr1, $clr: $clr-font, $padding: em(5px) em(10px)) {
+    border: 0;
+    font-size: em(14px);
+    padding: $padding;
+    font-weight: 600;
+    width: auto;
+    margin: 5px;
+    border: 1px $clr-font solid;
+    border-radius: rem(4px);
+    transition: 0.2s;
+    cursor: pointer;
+
+
+    @if $type ==regular {
+        background-color: $bg;
+        color: $clr;
+
+        &:hover {
+            color: $clr-btn-hov;
+        }
+    }
+}
+
+// Mixin for removing hover efects on iphone screen
+@mixin hover-supported {
+    @media not all and (pointer: coarse) {
+        &:hover {
+            @include common-styles; // Include the common styles mixin here
+        }
+    }
+}
