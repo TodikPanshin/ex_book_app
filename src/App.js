@@ -1,7 +1,6 @@
 import React from 'react'
-import logo from './logo.svg'
 import './App.css'
-import { Routes, route } from 'react-router'
+import { Routes, Route } from 'react-router'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { AppHeader } from './cmps/app-header'
@@ -9,9 +8,9 @@ import { Home } from './pages/home'
 
 
 
-export function App() {
+export default function App() {
   return (
-    <Provider store={store}>
+    // <Provider store={store}>
       <Router>
         <section className="App main-layout">
           <AppHeader />
@@ -22,7 +21,7 @@ export function App() {
           </main>
         </section>
       </Router>
-    </Provider>
+    // </Provider>
   )
 }
 
