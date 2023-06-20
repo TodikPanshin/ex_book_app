@@ -24,6 +24,7 @@ export function Books() {
 
     async function handleCheckboxChange() {
         setChecked(prev => !prev)
+        console.log(checked)
         const updatedBook = { ...book, isFavorite: checked }
         try {
             await bookService.save(updatedBook)
@@ -33,17 +34,21 @@ export function Books() {
         }
     }
 
-    
+
+
+
 
     console.log('test book', book)
     if (!book && !book.length) return <div>Loading...</div>
     return (
         <>
             <div className='book-container'>
-                {bookIdx !== 0 && <button onClick={() => handaleBookIdx(-1)}><FontAwesomeIcon icon={faChevronLeft} size="xl" /> </button>}
+                {bookIdx !== 0 && <button className='back-btn' onClick={() => handaleBookIdx(-1)}><FontAwesomeIcon icon={faChevronLeft} size="xl" /> </button>}
                 <article className="book-card">
                     <div className="card-header">
-                        <h3 className='book-title'>{book.title}</h3>
+                        <div className='title-container'>
+                            <h3 className='book-title'>{book.title}</h3>
+                        </div>
                         <input
                             type="checkbox"
                             id="checkbox"
@@ -61,7 +66,7 @@ export function Books() {
                     </div>
                     <h3 className='price'>Price: $<span>{book.price}</span> </h3>
                 </article >
-                {bookIdx !== bookService.getBooksLength()-1 && < button onClick={() => handaleBookIdx(+1)}><FontAwesomeIcon icon={faChevronRight} size="xl" /></button>}
+                {bookIdx !== bookService.getBooksLength() - 1 && < button className='forward-btn' onClick={() => handaleBookIdx(+1)}><FontAwesomeIcon icon={faChevronRight} size="xl" /></button>}
             </div >
         </>
     )

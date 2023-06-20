@@ -19,8 +19,8 @@ const gBooks = _loadBooks()
 
 function query(idx = 0) {
     let books = gBooks[idx]
-     
-    console.log('test query', books)
+
+    // console.log('test query', books)
     return Promise.resolve(books)
 }
 
@@ -46,7 +46,7 @@ function remove(id) {
 function save(bookToSave) {
     console.log('bookToSave', bookToSave)
     const idx = gBooks.findIndex(book => book._id === bookToSave._id)
-    gBooks[idx]=bookToSave
+    gBooks[idx] = bookToSave
 
     storageService.store(STORAGE_KEY, gBooks)
     return Promise.resolve(bookToSave)
