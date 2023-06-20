@@ -5,13 +5,13 @@ const initialState = {
     books: []
 }
 
-export function boardReducer(state = initialState, action) {
+export function booksReducer(state = initialState, action) {
     var newState = state
     var books
 
     switch (action.type) {
         case SET_BOOKS:
-            newState = { ...state, books: action.boards }
+            newState = { ...state, books: action.books }
             break
 
 
