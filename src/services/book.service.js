@@ -1,5 +1,6 @@
 import { storageService } from './storage.service.js'
-import { makeId } from './util.service.js'
+import { makeId,adToDemoData } from './util.service.js'
+
 
 
 export const bookService = {
@@ -11,14 +12,15 @@ export const bookService = {
 
 const STORAGE_KEY = 'booksDB'
 
-
+var bookIdx = 0
 
 var gBooks = _loadBooks()
 
-function query() {
-    let books = gBooks
+function query(idx = 0) {
+    bookIdx = idx
+    let book = gBooks.books[bookIdx]
 
-    return Promise.resolve([...books])
+    return Promise.resolve({ ...book })
 }
 
 
@@ -29,9 +31,13 @@ function getById(id) {
 
 function remove(id) {
     const idx = gBooks.findIndex(book => book._id === id)
-    gBooks.splice(idx, 1)
-    if (!gBooks.length) gBooks = gDefaultbooks.slice()
-    storageService.store(STORAGE_KEY, gBooks)
+    if (idx !== -1) {
+        gBooks.splice(idx, 1)
+        if (gBooks.length === 0) {
+            gBooks = _demoBooks().books
+        }
+        storageService.store(STORAGE_KEY, gBooks)
+    }
     return Promise.resolve()
 }
 
@@ -53,6 +59,7 @@ function _loadBooks() {
     let books = storageService.load(STORAGE_KEY)
     if (!books || !books.length) {
         books = _demoBooks()
+        adToDemoData(books.books, 'isFavorite', false);
         storageService.store(STORAGE_KEY, books)
     }
     return books

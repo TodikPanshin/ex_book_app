@@ -7,3 +7,14 @@ export function makeId(length = 5) {
     }
     return text;
 }
+
+
+export function adToDemoData(array, key, value, nestedKey = null) {
+    array.forEach((object) => {
+      if (nestedKey) {
+        object[nestedKey][key] = value
+      } else {
+        object[key] = value
+      }
+    })
+  }
