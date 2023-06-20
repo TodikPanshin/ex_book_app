@@ -1,12 +1,9 @@
 import { legacy_createStore as createStore, combineReducers } from 'redux'
 import { booksReducer } from './books.reducer.js'
-// import { userReducer } from './user.reducer.js'
-// import { systemReducer } from './system.reducer'
+
 
 const rootReducer = combineReducers({
     booksModule: booksReducer,
-    userModule: userReducer,
-    systemModule: systemReducer,
 })
 
 const middleware = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__

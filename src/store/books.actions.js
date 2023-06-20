@@ -12,7 +12,7 @@ export async function loadBooks() {
         const books = await booksService.query()
         store.dispatch({
             type: SET_BOOKS,
-            boards,
+            books,
         })
     } catch (err) {
         console.log('Cannot load books', err)
